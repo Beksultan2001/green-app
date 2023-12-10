@@ -14,11 +14,6 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Typography from '@mui/material/Typography';
 import Button from './../../components/UI/Button';
 
-const Section = styled.div`
-  display: flex;
-  min-height: 100%;
-  justify-content: center
-`;
 
 function Transfer() {
 
@@ -72,5 +67,3 @@ function Transfer() {
 }
 
 export default Transfer
-
-

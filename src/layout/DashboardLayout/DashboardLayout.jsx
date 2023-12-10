@@ -12,12 +12,26 @@ import {Link,NavLink} from 'react-router-dom';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import styled from '@emotion/styled';
 import CssBaseLine from '@mui/material/CssBaseline';
+import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
+
 
 const Section = styled.section`
   .ps-sidebar-container{
     background: none
   }
 `
+const MenuItemBox = styled.div`
+  display: flex;
+  align-items:center;
+  font-size: 14px;
+
+  .MuiSvgIcon-root{
+    font-size: 20px;
+    margin-right: 0.3rem;
+  }
+`;
 
 
 const drawerWidth = 240;
@@ -49,9 +63,9 @@ function DashboardLayout(props) {
             },
           }}
         >
-          <MenuItem component={<NavLink to="/" />} active={true}>Transfer</MenuItem>
-          <MenuItem component={<NavLink to="/createoffer" />}>Create Offer</MenuItem>
-          <MenuItem component={<NavLink to="/takeoffer" />}>Take Offer</MenuItem>
+          <MenuItem component={<NavLink to="/" />} active={true}><MenuItemBox><SwapVertIcon  />Transfer</MenuItemBox></MenuItem>
+          <MenuItem  component={<NavLink to="/createoffer" />}><MenuItemBox><NoteAddOutlinedIcon  /> Create offer</MenuItemBox></MenuItem>
+          <MenuItem component={<NavLink to="/takeoffer" />}><MenuItemBox><TextSnippetOutlinedIcon  /> Take offer</MenuItemBox></MenuItem>
         </Menu>
       </Sidebar>
     </Section>
@@ -74,6 +88,7 @@ function DashboardLayout(props) {
       >    
         <Drawer
           variant="permanent"
+          open={false}
           sx={{
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
