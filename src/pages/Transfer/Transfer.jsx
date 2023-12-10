@@ -25,11 +25,9 @@ function Transfer() {
 
   const handleSubmitBtn=()=>{
     console.log('Bridge')
-  //  setTimeout(()=>{
-  //   Bridge.interfaces.GreenWallet.connect().then((ans) => {
-  //     console.log(ans,'Call from Android for checking connection');
-  // });
-  //  },50)
+    window.Bridge.interfaces.GreenWallet.connect().then((ans) => {
+        console.log(ans,'Call from Android for checking connection');
+    });
   }
 
 
