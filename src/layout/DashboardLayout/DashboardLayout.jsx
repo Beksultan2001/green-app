@@ -15,6 +15,7 @@ import CssBaseLine from '@mui/material/CssBaseline';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const Section = styled.section`
@@ -32,11 +33,28 @@ const MenuItemBox = styled.div`
     margin-right: 0.3rem;
   }
 `;
+const BoxPage = styled.div`
+  display: flex;
+  .Humberger{
+    width: 80px;
+  }
+`;
 
 
 const drawerWidth = 240;
 
 function DashboardLayout(props) {
+
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const isMobile = useMediaQuery('(max-width:600px)');
+
+  const handleDrawerOpen = () => {
+    setOpenDrawer(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpenDrawer(false);
+  };
 
   const drawer = (
     <Section>
@@ -72,16 +90,33 @@ function DashboardLayout(props) {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <BoxPage sx={{ display: 'flex' }}>
       <CssBaseLine />
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}
-      >
-      </AppBar>
+      {isMobile && (
+        <AppBar
+          position="fixed"
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+          }}
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+            background: 'none',
+            boxShadow: 'none',
+          }}
+        >
+          <IconButton
+            className='Humberger'
+            color="black"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+          >
+            <MenuIcon />
+          </IconButton>
+        </AppBar>
+      )}
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -98,6 +133,14 @@ function DashboardLayout(props) {
           {drawer}
         </Drawer>
       </Box>
+       <Drawer
+        anchor="left"
+        open={openDrawer}
+        onClose={handleDrawerClose}
+        ModalProps={{ keepMounted: true }}
+      >
+        {drawer}
+      </Drawer>
       <Box
         component="main"
         sx={{flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, paddingTop: '64px'}}
@@ -105,7 +148,7 @@ function DashboardLayout(props) {
         {props.children}
       </Box>
       
-    </Box>
+    </BoxPage>
   );
 }
 

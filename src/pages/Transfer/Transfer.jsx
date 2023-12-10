@@ -23,6 +23,13 @@ function Transfer() {
     setAge(event.target.value);
   };
 
+  const handleSubmitBtn=()=>{
+    console.log('Bridge')
+    Bridge.interfaces.GreenWallet.connect().then((ans) => {
+        console.log(ans,'Call from Android for checking connection');
+    });
+  }
+
 
   return (
     <Container>
@@ -60,7 +67,7 @@ function Transfer() {
           </FormControl>
           <FormHelperText style={{marginTop: 10,fontSize: 16,fontWeight: 600}}>Balance: 0</FormHelperText>
             </Box>
-          <Button />
+          <Button onClick={handleSubmitBtn} />
         </Paper>
     </Container>
   )

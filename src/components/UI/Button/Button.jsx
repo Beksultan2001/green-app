@@ -8,7 +8,7 @@ function Button(props) {
   const {onClick}=props;
 
   return (
-    <ButtonBTN style={{marginTop: 24, background: '#7ddb9c',borderRadius: 8,height: 58}}  fullWidth variant="contained">Connect wallet</ButtonBTN>
+    <ButtonBTN onClick={onClick} style={{marginTop: 24, background: '#7ddb9c',borderRadius: 8,height: 58}}  fullWidth variant="contained">Connect wallet</ButtonBTN>
   )
 }
 
