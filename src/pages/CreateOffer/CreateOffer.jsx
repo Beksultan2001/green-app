@@ -167,7 +167,7 @@ function Transfer() {
               </ButtonGroup>
           </FormControl>
           </Box>
-          <Button  />
+          <Button isFullWidth={true}  />
           </Paper>
     </Container>
     </ThemeProvider>

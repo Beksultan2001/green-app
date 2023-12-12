@@ -5,7 +5,7 @@ import Container from '../../components/UI/Container';
 function TakeOffer() {
   return (
     <Container>
-      <Button>test</Button>
+      <Button isFullWidth={false}>test</Button>
     </Container>
   )
 }

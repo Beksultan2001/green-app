@@ -81,7 +81,7 @@ function Transfer() {
             Balance: 0
           </FormHelperText>
         </Box>
-        <Button onClick={handleSubmitBtn} />
+        <Button onClick={handleSubmitBtn} isFullWidth={true} />
       </Paper>
     </Container>
     </ThemeProvider>
