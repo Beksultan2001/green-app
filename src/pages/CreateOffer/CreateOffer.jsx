@@ -1,24 +1,27 @@
 import React from 'react';
-import styled from '@emotion/styled';
 import Box from '@mui/material/Box';
 import Container from '../../components/UI/Container';
-import InputLabel from '@mui/material/InputLabel';
 import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
 import Typography from '@mui/material/Typography';
 import Button from './../../components/UI/Button';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme();
+
 
 function Transfer() {
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [age, setAge] = React.useState('');
 
@@ -28,8 +31,16 @@ function Transfer() {
 
 
   return (
+    <ThemeProvider theme={theme}>
+
     <Container>
-        <Paper style={{padding: '32px', width: 450}} elevation={4}>
+      <Paper
+        style={{
+          padding: '32px',
+          width: isSmallScreen ? '100%' : '450px', // Adjust the width based on the screen size
+        }}
+        elevation={4}
+      >
           <Box>
             <Typography style={{fontSize: 15}} variant="h6" fontWeight={600} component="h6">
               Send To
@@ -157,8 +168,9 @@ function Transfer() {
           </FormControl>
           </Box>
           <Button  />
-        </Paper>
+          </Paper>
     </Container>
+    </ThemeProvider>
   )
 }
 
