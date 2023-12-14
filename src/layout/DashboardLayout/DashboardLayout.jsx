@@ -16,7 +16,7 @@ import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import Button from '@mui/material/Button';
 
 const Section = styled.section`
   .ps-sidebar-container{
@@ -35,9 +35,6 @@ const MenuItemBox = styled.div`
 `;
 const BoxPage = styled.div`
   display: flex;
-  .Humberger{
-    width: 80px;
-  }
 `;
 
 
@@ -92,17 +89,19 @@ function DashboardLayout(props) {
   return (
     <BoxPage sx={{ display: 'flex' }}>
       <CssBaseLine />
-      {isMobile && (
+      {true && (
         <AppBar
           position="fixed"
           style={{
             display: 'flex',
-            justifyContent: 'flex-start',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: '11px 32px'
           }}
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
-            background: 'none',
+            background: 'white',
             boxShadow: 'none',
           }}
         >
@@ -115,6 +114,15 @@ function DashboardLayout(props) {
           >
             <MenuIcon />
           </IconButton>
+          <Button
+          variant="contained"
+          style={{
+            background: '#7ddb9c',
+            borderRadius: '10px'
+          }}
+        >
+          Connect Wallet
+        </Button>
         </AppBar>
       )}
       <Box
@@ -143,9 +151,11 @@ function DashboardLayout(props) {
       </Drawer>
       <Box
         component="main"
-        sx={{flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, paddingTop: '64px'}}
+        sx={{flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, paddingTop: '74px', background: '#e9f7f0',minHeight: '100vh'}}
       >
+        <Box>
         {props.children}
+        </Box>
       </Box>
       
     </BoxPage>
