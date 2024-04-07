@@ -92,18 +92,23 @@ const Transfer = () => {
     });
   }, []);
 
-  useEffect(async ()=> {
-
-    // try {
-    //   let data = await Bridge.interfaces.GreenWallet.connect();
-    //   console.log(data, 'data');
-    //   if (data){
-    //     setIsConnected(true);
-    //   }
-    // }catch (error){
-    //   console.log(error, 'error');
-    // }
-  },[]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Perform asynchronous operation here
+        let data = await window.Bridge.interfaces.GreenWallet.connect();
+        console.log(data, 'data');
+        if (data) {
+          setIsConnected(true);
+        }
+      } catch (error) {
+        console.log(error, 'error');
+      }
+    };
+  
+    // Call the fetchData function
+    fetchData();
+  }, []);
 
   const isDisableRemoveOffer = offerData.length <= 1;
   const isDisableRemoveRequest = requestData.length <= 1;
