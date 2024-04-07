@@ -1,14 +1,11 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import {Link,NavLink} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import styled from '@emotion/styled';
 import CssBaseLine from '@mui/material/CssBaseline';
@@ -17,6 +14,8 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTokens } from '../../redux/slices/tokenSlice';
 
 const Section = styled.section`
   .ps-sidebar-container{
@@ -42,7 +41,9 @@ const drawerWidth = 240;
 
 function DashboardLayout(props) {
 
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const dispatch = useDispatch();
+  const tokenStatus = useSelector(state => state.token.tokenStatus)
   const isMobile = useMediaQuery('(max-width:600px)');
 
   const handleDrawerOpen = () => {
@@ -52,6 +53,10 @@ function DashboardLayout(props) {
   const handleDrawerClose = () => {
     setOpenDrawer(false);
   };
+
+  const handleUpdateStatus = () => {
+    dispatch(fetchTokens());
+  }
 
   const drawer = (
     <Section>
@@ -117,11 +122,13 @@ function DashboardLayout(props) {
           <Button
           variant="contained"
           style={{
-            background: '#7ddb9c',
+            background: tokenStatus ? '#dddddd' : '#7ddb9c',
             borderRadius: '10px'
           }}
+          disabled={tokenStatus}
+          onClick={handleUpdateStatus}
         >
-          Connect Wallet
+          {tokenStatus ? 'Connected' : 'Connect Wallet'}
         </Button>
         </AppBar>
       )}

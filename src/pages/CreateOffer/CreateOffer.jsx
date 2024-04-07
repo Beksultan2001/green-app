@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Container from '../../components/UI/Container';
 import Paper from '@mui/material/Paper';
@@ -15,10 +15,27 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { listOffers } from '../../shared/api/api';
+import { useSelector } from 'react-redux';
+import {v4 as uuidv4} from 'uuid';
 
 const theme = createTheme();
 
-const TransferItem = ({ data, setData, handleAddItem, handleRemoveItem, handleChangeItem, isDisableRemove, isDisabledAdd, anotherData}) => {
+const TransferItem = ({data, setData, 
+  handleAddItem, handleRemoveItem, 
+  handleChangeItem, isDisableRemove,
+   isDisabledAdd, anotherData}) => {
+
+    const handleChangeItemData = (elem, id) => {
+      let newData = data.map((t) => {
+        if (t.id == id){
+          return {...t, amount: elem.target.value}
+        }
+        return t;
+      });
+
+      setData(newData);
+    }
+
   return (
     <div style={{
       display: 'flex',
@@ -26,14 +43,14 @@ const TransferItem = ({ data, setData, handleAddItem, handleRemoveItem, handleCh
       gap: 24
     }}>
       {data.map((offer, key) => (
-        <Box key={offer.id} sx={{
+        <Box key={key} sx={{
           display: 'flex',
           flexDirection: 'row',
           width: '100%'
         }}>
           <Select
-            value={offer.id !== '' ? offer.id : ''}
-            onChange={(e) => handleChangeItem(setData, e, offer)}
+            value={offer.id?.length > 10 ? '' : offer.id}
+            onChange={(e) => handleChangeItem(setData, e,offer)}
             style={{ width: '140px' }}
           >
             {listOffers.map((t) => {
@@ -52,6 +69,8 @@ const TransferItem = ({ data, setData, handleAddItem, handleRemoveItem, handleCh
             inputProps={{
               'aria-label': 'weight',
             }}
+            onChange={(elem) => handleChangeItemData(elem,offer.id)}
+            value={offer.amount}
           />
           <ButtonGroup style={{
             display: 'flex',
@@ -73,12 +92,12 @@ const TransferItem = ({ data, setData, handleAddItem, handleRemoveItem, handleCh
 const Transfer = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [offerData, setOfferData] = useState([{ token: '', id: new Date().getTime() }]);
-  const [requestData, setRequestData] = useState([{ token: '', id: new Date().getTime() }]);
-  const [isConnected, setIsConnected] = useState(false);
+  const [offerData, setOfferData] = useState([{ token: '', id: uuidv4(),amount: '', assetId: ''}]);
+  const [requestData, setRequestData] = useState([{ token: '', id: uuidv4(), amount: '', assetId: ''}]);
+  const tokenStatus = useSelector(state => state.token.tokenStatus)
 
   const handleAddItem = useCallback((setData) => {
-    setData(prevData => [...prevData, { token: '', id: new Date().getTime() }]);
+    setData(prevData => [...prevData, { token: '', id: uuidv4(), assetId: '', amount: ''}]);
   }, []);
 
   const handleRemoveItem = useCallback((setData, data) => {
@@ -92,23 +111,13 @@ const Transfer = () => {
     });
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Perform asynchronous operation here
-        let data = await window.Bridge.interfaces.GreenWallet.connect();
-        console.log(data, 'data');
-        if (data) {
-          setIsConnected(true);
-        }
-      } catch (error) {
-        console.log(error, 'error');
-      }
-    };
-  
-    // Call the fetchData function
-    fetchData();
-  }, []);
+  const handleSendRequest = async () => {
+    let createOfferRes = await window.Bridge.interfaces.GreenWallet.createOffer(
+      {'offerAssets': offerData,
+        'requestAssets': requestData
+    });
+    console.log(createOfferRes, 'createOfferRes');
+  }
 
   const isDisableRemoveOffer = offerData.length <= 1;
   const isDisableRemoveRequest = requestData.length <= 1;
@@ -156,7 +165,7 @@ const Transfer = () => {
               anotherData={offerData}
             />
           </Box>
-          <Button isFullWidth={true}  title={isConnected ? 'Connected' : 'Connect'} />
+          <Button isFullWidth={true} onClick={handleSendRequest}  title={tokenStatus ? 'Connected' : 'Connect'} />
         </Paper>
       </Container>
     </ThemeProvider>

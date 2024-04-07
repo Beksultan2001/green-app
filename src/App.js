@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
 // components
@@ -6,13 +6,16 @@ import DashboardLayout from "./layout/DashboardLayout";
 import Transfer from "./pages/Transfer";
 import CreateOffer from "./pages/CreateOffer";
 import TakeOffer from "./pages/TakeOffer";
+import { useDispatch } from "react-redux";
+import { fetchTokens } from "./redux/slices/tokenSlice";
 
 const App = () => {
-  const [showModal, setShowModal] = useState(false);
-  const toggleShowModal = () => setShowModal(!showModal);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchTokens());
+  }, [dispatch]);
 
-  // show on mount
-  useEffect(() => setShowModal(true), []);
 
   return (
     <BrowserRouter>
