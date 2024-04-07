@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Container from '../../components/UI/Container';
 import Paper from '@mui/material/Paper';
@@ -75,6 +75,7 @@ const Transfer = () => {
 
   const [offerData, setOfferData] = useState([{ token: '', id: new Date().getTime() }]);
   const [requestData, setRequestData] = useState([{ token: '', id: new Date().getTime() }]);
+  const [isConnected, setIsConnected] = useState(false);
 
   const handleAddItem = useCallback((setData) => {
     setData(prevData => [...prevData, { token: '', id: new Date().getTime() }]);
@@ -90,6 +91,19 @@ const Transfer = () => {
       return prevData.map((offer) => (offer.id === currData.id ? selectedItem : offer));
     });
   }, []);
+
+  useEffect(async ()=> {
+
+    try {
+      let data = await Bridge.interfaces.GreenWallet.connect();
+      console.log(data, 'data');
+      if (data){
+        setIsConnected(true);
+      }
+    }catch (error){
+      console.log(error, 'error');
+    }
+  },[]);
 
   const isDisableRemoveOffer = offerData.length <= 1;
   const isDisableRemoveRequest = requestData.length <= 1;
@@ -137,7 +151,7 @@ const Transfer = () => {
               anotherData={offerData}
             />
           </Box>
-          <Button isFullWidth={true} />
+          <Button isFullWidth={true}  title={isConnected ? 'Connected' : 'Connect'} />
         </Paper>
       </Container>
     </ThemeProvider>
