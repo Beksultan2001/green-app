@@ -94,15 +94,15 @@ const Transfer = () => {
 
   useEffect(async ()=> {
 
-    try {
-      let data = await Bridge.interfaces.GreenWallet.connect();
-      console.log(data, 'data');
-      if (data){
-        setIsConnected(true);
-      }
-    }catch (error){
-      console.log(error, 'error');
-    }
+    // try {
+    //   let data = await Bridge.interfaces.GreenWallet.connect();
+    //   console.log(data, 'data');
+    //   if (data){
+    //     setIsConnected(true);
+    //   }
+    // }catch (error){
+    //   console.log(error, 'error');
+    // }
   },[]);
 
   const isDisableRemoveOffer = offerData.length <= 1;
