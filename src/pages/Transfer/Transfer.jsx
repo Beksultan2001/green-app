@@ -13,12 +13,14 @@ import Typography from '@mui/material/Typography';
 import Button from './../../components/UI/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
 
 const theme = createTheme();
 
 
 function Transfer() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const tokenStatus = useSelector(state => state.token.tokenStatus)
 
   const [age, setAge] = React.useState('');
 
@@ -27,9 +29,6 @@ function Transfer() {
   };
 
   const handleSubmitBtn = () => {
-    window.Bridge.interfaces.GreenWallet.connect().then((ans) => {
-      console.log(ans, 'Call from Android for checking connection');
-    });
   };
 
   return (
@@ -81,7 +80,7 @@ function Transfer() {
             Balance: 0
           </FormHelperText>
         </Box>
-        <Button onClick={handleSubmitBtn} isFullWidth={true} />
+        <Button onClick={handleSubmitBtn} isFullWidth={true} disabled={tokenStatus} title={tokenStatus? 'Connected' : "Connect Wallet"}  />
       </Paper>
     </Container>
     </ThemeProvider>

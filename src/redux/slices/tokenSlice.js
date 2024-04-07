@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const fetchTokens = createAsyncThunk(
     'token/fetchTokens',
     async (id, thunkApi) => {
-      const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+      const response = await window.Bridge.interfaces.GreenWallet.connect();
       return response.json();
     }
 );
